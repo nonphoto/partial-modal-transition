@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <state key="normal" title="Tap to present"/>
                                 <connections>
-                                    <segue destination="pKG-iq-8lX" kind="custom" customClass="PartialModalSegue" customModule="JLPartialModalTransition" customModuleProvider="target" id="vA5-xC-DpH"/>
+                                    <segue destination="pKG-iq-8lX" kind="custom" customClass="JLPartialModalSegue" customModule="JLPartialModalTransition" customModuleProvider="target" id="0ww-e4-xUY"/>
                                 </connections>
                             </button>
                         </subviews>

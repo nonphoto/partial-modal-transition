@@ -1,5 +1,5 @@
 //
-//  PartialModalTransition.swift
+//  JLPartialModalTransition.swift
 //  Mindburner
 //
 //  Created by Jonas Luebbers on 6/30/16.
@@ -22,11 +22,11 @@ private let SPRING_VELOCITY: CGFloat = 0.1
 
 import UIKit
 
-class PartialModalSegue: UIStoryboardSegue {
+class JLPartialModalSegue: UIStoryboardSegue {
     var transition: UIViewControllerTransitioningDelegate!
 
     override func perform() {
-        transition = PartialModalTransition()
+        transition = JLPartialModalTransition()
         destinationViewController.transitioningDelegate = transition
         destinationViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
         sourceViewController.presentViewController(destinationViewController, animated: true, completion: nil)
@@ -36,12 +36,12 @@ class PartialModalSegue: UIStoryboardSegue {
 
 
 /**
- The `PartialModalTransition` class manages a custom view controller transition by modally presenting a view controller (known as the "presented" view controller) such that the top of the view controller that initiated the presentation (the "presenting" view controller) is still visible. The dismissal of the presented view controller is interactive. This presentation is visually similar to the presentation of a new message in Apple's default Mail application.
+ The `JLPartialModalTransition` class manages a custom view controller transition by modally presenting a view controller (known as the "presented" view controller) such that the top of the view controller that initiated the presentation (the "presenting" view controller) is still visible. The dismissal of the presented view controller is interactive. This presentation is visually similar to the presentation of a new message in Apple's default Mail application.
  
- You need not instantiate any other `PartialModal` classes to create such a transition, this class will manage them for you. Example code for initiating such a transition is as follows:
+ You need not instantiate any other `JLPartialModal` classes to create such a transition, this class will manage them for you. Example code for initiating such a transition is as follows:
 
  ```
- transition = PartialModalTransition()
+ transition = JLPartialModalTransition()
  presentedViewController.transitioningDelegate = transition
  presentedViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
  presentingViewController.presentViewController(presentedViewController, animated: true, completion: nil)
@@ -49,16 +49,16 @@ class PartialModalSegue: UIStoryboardSegue {
 
  Be sure to keep a reference to the transitioning delegate in the presenting view controller so that it is not inadvertently garbage-collected.
  */
-class PartialModalTransition: NSObject, UIViewControllerTransitioningDelegate, PartialModalPresentationControllerDelegate {
+class JLPartialModalTransition: NSObject, UIViewControllerTransitioningDelegate, JLPartialModalPresentationControllerDelegate {
 
-    private var interactionController: PartialModalInteractionController?
+    private var interactionController: JLPartialModalInteractionController?
 
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return PartialModalPresentationAnimationController()
+        return JLPartialModalPresentationAnimationController()
     }
 
     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return PartialModalDismissalAnimationController()
+        return JLPartialModalDismissalAnimationController()
     }
 
     func interactionControllerForPresentation(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
@@ -70,14 +70,14 @@ class PartialModalTransition: NSObject, UIViewControllerTransitioningDelegate, P
     }
 
     func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
-        let presentationController = PartialModalPresentationController(presentedViewController: presented, presentingViewController: presenting)
+        let presentationController = JLPartialModalPresentationController(presentedViewController: presented, presentingViewController: presenting)
         presentationController.transitioningDelegate = self
         return presentationController
     }
 
-    func enableInteraction(enabled: Bool) -> PartialModalInteractionController? {
+    func enableInteraction(enabled: Bool) -> JLPartialModalInteractionController? {
         if enabled {
-            interactionController = PartialModalInteractionController()
+            interactionController = JLPartialModalInteractionController()
             return interactionController
         }
         else {
@@ -90,11 +90,11 @@ class PartialModalTransition: NSObject, UIViewControllerTransitioningDelegate, P
 
 
 /**
- The `PartialModalPresentationAnimationController` controls the animation of a custom transition when presenting a view controller.
+ The `JLPartialModalPresentationAnimationController` controls the animation of a custom transition when presenting a view controller.
  
- You do not need to instantiate this class to initiate such a transition. See `PartialModalTransition` instead.
+ You do not need to instantiate this class to initiate such a transition. See `JLPartialModalTransition` instead.
  */
-class PartialModalPresentationAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+class JLPartialModalPresentationAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
         let presentingViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         let presentedViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
@@ -133,11 +133,11 @@ class PartialModalPresentationAnimationController: NSObject, UIViewControllerAni
 
 
 /**
- The `PartialModalDismissalAnimationController` controls the animation of a custom transition when dismissing a view controller.
+ The `JLPartialModalDismissalAnimationController` controls the animation of a custom transition when dismissing a view controller.
 
- You do not need to instantiate this class to initiate such a transition. See `PartialModalTransition` instead.
+ You do not need to instantiate this class to initiate such a transition. See `JLPartialModalTransition` instead.
  */
-class PartialModalDismissalAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+class JLPartialModalDismissalAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
         let presentingViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
         let presentedViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
@@ -170,32 +170,32 @@ class PartialModalDismissalAnimationController: NSObject, UIViewControllerAnimat
 
 
 /**
- The delegate of a `PartialModalPresentationController` must adopt this protocol. The transitioning delegate for the partial modal transition uses this protocol to enable and disable interactive dismissal.
+ The delegate of a `JLPartialModalPresentationController` must adopt this protocol. The transitioning delegate for the partial modal transition uses this protocol to enable and disable interactive dismissal.
  */
-protocol PartialModalPresentationControllerDelegate {
+protocol JLPartialModalPresentationControllerDelegate {
 
     /**
      Enable or disable interaction for the partial modal transition.
      
-     The `PartialModalPresentationController` calls this method before initiating an interactive transition, and after cancelling one.
+     The `JLPartialModalPresentationController` calls this method before initiating an interactive transition, and after cancelling one.
      
      - parameter enabled: Whether the delegate should enable interaction.
      
-     - returns: A `PartialModalInteractionController` if the delegate successfully enables interaction. Otherwise, the delegate should return `nil`.
+     - returns: A `JLPartialModalInteractionController` if the delegate successfully enables interaction. Otherwise, the delegate should return `nil`.
      */
-    func enableInteraction(enabled: Bool) -> PartialModalInteractionController?
+    func enableInteraction(enabled: Bool) -> JLPartialModalInteractionController?
 
 }
 
 /**
- The `PartialModalPresentationController` class provides view and transition management during partial modal presentation and dismissal.
+ The `JLPartialModalPresentationController` class provides view and transition management during partial modal presentation and dismissal.
  
- You do not need to instantiate this class to initiate such a transition. See `PartialModalTransition` instead. This class determines the size of the presented view controller in the transition's container view, as well as the frames of the presenting and presented views when the trait collection of the container view changes (such as when the device changes orientation). It also handles gesture recognition for the presented view controller, starting an interactive dismissal transition when the user swipes downward on the presented view controller.
+ You do not need to instantiate this class to initiate such a transition. See `JLPartialModalTransition` instead. This class determines the size of the presented view controller in the transition's container view, as well as the frames of the presenting and presented views when the trait collection of the container view changes (such as when the device changes orientation). It also handles gesture recognition for the presented view controller, starting an interactive dismissal transition when the user swipes downward on the presented view controller.
  */
-class PartialModalPresentationController: UIPresentationController, UIAdaptivePresentationControllerDelegate {
+class JLPartialModalPresentationController: UIPresentationController, UIAdaptivePresentationControllerDelegate {
 
-    var transitioningDelegate: PartialModalPresentationControllerDelegate?
-    var interactionController: PartialModalInteractionController?
+    var transitioningDelegate: JLPartialModalPresentationControllerDelegate?
+    var interactionController: JLPartialModalInteractionController?
 
     override func frameOfPresentedViewInContainerView() -> CGRect {
         if let view = containerView {
@@ -278,11 +278,11 @@ class PartialModalPresentationController: UIPresentationController, UIAdaptivePr
 
 
 /**
- The `PartialModalInteractionController` manages the transitioning view controllers during an interactive dismissal transition.
+ The `JLPartialModalInteractionController` manages the transitioning view controllers during an interactive dismissal transition.
  
- You do not need to instantiate this class to initiate such a transition. See `PartialModalTransition` instead. This class manipulates frames and transforms of the transitioning view controllers according to a `CGFloat` percent value representing the progress toward animation completion. Unlike `PercentDrivenInteractiveTransition` the completion percentage can be negative. This class also animates the view controllers back to their presented state when the transition is cancelled, and to their dismissed state when the transition finishes.
+ You do not need to instantiate this class to initiate such a transition. See `JLPartialModalTransition` instead. This class manipulates frames and transforms of the transitioning view controllers according to a `CGFloat` percent value representing the progress toward animation completion. Unlike `PercentDrivenInteractiveTransition` the completion percentage can be negative. This class also animates the view controllers back to their presented state when the transition is cancelled, and to their dismissed state when the transition finishes.
  */
-class PartialModalInteractionController: UIPercentDrivenInteractiveTransition {
+class JLPartialModalInteractionController: UIPercentDrivenInteractiveTransition {
 
     var transitionContext: UIViewControllerContextTransitioning!
 
