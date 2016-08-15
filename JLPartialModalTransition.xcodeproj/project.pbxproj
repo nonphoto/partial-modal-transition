@@ -8,22 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		DD93C1601D612149008A72BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD93C15F1D612149008A72BC /* AppDelegate.swift */; };
-		DD93C1621D612149008A72BC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD93C1611D612149008A72BC /* ViewController.swift */; };
 		DD93C1651D612149008A72BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD93C1631D612149008A72BC /* Main.storyboard */; };
 		DD93C1671D612149008A72BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD93C1661D612149008A72BC /* Assets.xcassets */; };
 		DD93C16A1D612149008A72BC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD93C1681D612149008A72BC /* LaunchScreen.storyboard */; };
 		DD93C1721D612284008A72BC /* JLPartialModalTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD93C1711D612284008A72BC /* JLPartialModalTransition.swift */; };
+		DD93C1741D6160D5008A72BC /* LightStatusBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD93C1731D6160D5008A72BC /* LightStatusBarViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DD93C15C1D612149008A72BC /* JLPartialModalTransition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JLPartialModalTransition.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD93C15F1D612149008A72BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DD93C1611D612149008A72BC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DD93C1641D612149008A72BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DD93C1661D612149008A72BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD93C1691D612149008A72BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD93C16B1D612149008A72BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD93C1711D612284008A72BC /* JLPartialModalTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JLPartialModalTransition.swift; sourceTree = "<group>"; };
+		DD93C1731D6160D5008A72BC /* LightStatusBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightStatusBarViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,9 +57,9 @@
 			isa = PBXGroup;
 			children = (
 				DD93C15F1D612149008A72BC /* AppDelegate.swift */,
-				DD93C1611D612149008A72BC /* ViewController.swift */,
-				DD93C1631D612149008A72BC /* Main.storyboard */,
+				DD93C1731D6160D5008A72BC /* LightStatusBarViewController.swift */,
 				DD93C1711D612284008A72BC /* JLPartialModalTransition.swift */,
+				DD93C1631D612149008A72BC /* Main.storyboard */,
 				DD93C1661D612149008A72BC /* Assets.xcassets */,
 				DD93C1681D612149008A72BC /* LaunchScreen.storyboard */,
 				DD93C16B1D612149008A72BC /* Info.plist */,
@@ -139,8 +139,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD93C1721D612284008A72BC /* JLPartialModalTransition.swift in Sources */,
-				DD93C1621D612149008A72BC /* ViewController.swift in Sources */,
 				DD93C1601D612149008A72BC /* AppDelegate.swift in Sources */,
+				DD93C1741D6160D5008A72BC /* LightStatusBarViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

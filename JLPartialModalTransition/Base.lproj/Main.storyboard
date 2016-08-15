@@ -8,7 +8,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="JLPartialModalTransition" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -19,7 +19,10 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Lu-9e-06b">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <state key="normal" title="Present"/>
+                                <state key="normal" title="Tap to present"/>
+                                <connections>
+                                    <segue destination="pKG-iq-8lX" kind="custom" customClass="PartialModalSegue" customModule="JLPartialModalTransition" customModuleProvider="target" id="vA5-xC-DpH"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -35,10 +38,10 @@
             </objects>
             <point key="canvasLocation" x="305" y="353"/>
         </scene>
-        <!--View Controller-->
+        <!--Light Status Bar View Controller-->
         <scene sceneID="xzb-kU-ZOD">
             <objects>
-                <viewController id="pKG-iq-8lX" sceneMemberID="viewController">
+                <viewController id="pKG-iq-8lX" customClass="LightStatusBarViewController" customModule="JLPartialModalTransition" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4Tf-Nm-hYp"/>
                         <viewControllerLayoutGuide type="bottom" id="4yd-Gu-Uf8"/>
@@ -47,17 +50,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6w4-c3-SHs">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <state key="normal" title="Dismiss"/>
-                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe down to dismiss" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JUY-14-N8t">
+                                <rect key="frame" x="213" y="289" width="174" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="6w4-c3-SHs" secondAttribute="trailing" id="14U-n6-bGZ"/>
-                            <constraint firstItem="6w4-c3-SHs" firstAttribute="leading" secondItem="yix-S7-Qpl" secondAttribute="leading" id="S9s-AV-J9a"/>
-                            <constraint firstItem="6w4-c3-SHs" firstAttribute="top" secondItem="yix-S7-Qpl" secondAttribute="top" id="SZi-Uf-dum"/>
-                            <constraint firstItem="4yd-Gu-Uf8" firstAttribute="top" secondItem="6w4-c3-SHs" secondAttribute="bottom" id="i0b-S2-1B8"/>
+                            <constraint firstItem="JUY-14-N8t" firstAttribute="centerX" secondItem="yix-S7-Qpl" secondAttribute="centerX" id="wCZ-ej-hVE"/>
+                            <constraint firstItem="JUY-14-N8t" firstAttribute="centerY" secondItem="yix-S7-Qpl" secondAttribute="centerY" id="z8k-8q-V5O"/>
                         </constraints>
                     </view>
                 </viewController>

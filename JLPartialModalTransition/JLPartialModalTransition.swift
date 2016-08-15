@@ -6,7 +6,34 @@
 //  Copyright © 2016 Mindburner. All rights reserved.
 //
 
+private let PRESENTING_VIEW_ALPHA: CGFloat = 0.75
+private let PRESENTING_VIEW_SCALE: CGFloat = 0.935
+
+private let PRESENTED_VIEW_OFFSET: CGFloat = 64.0
+private let PRESENTED_VIEW_COMPACT_OFFSET: CGFloat = 40.0
+
+private let PRESENTATION_DURATION: NSTimeInterval = 0.6
+private let DISMISSAL_DURATION: NSTimeInterval = 0.3
+
+private let DISMISSAL_THRESHOLD: CGFloat = 0.3
+
+private let SPRING_DAMPING: CGFloat = 0.8
+private let SPRING_VELOCITY: CGFloat = 0.1
+
 import UIKit
+
+class PartialModalSegue: UIStoryboardSegue {
+    var transition: UIViewControllerTransitioningDelegate!
+
+    override func perform() {
+        transition = PartialModalTransition()
+        destinationViewController.transitioningDelegate = transition
+        destinationViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
+        sourceViewController.presentViewController(destinationViewController, animated: true, completion: nil)
+    }
+}
+
+
 
 /**
  The `PartialModalTransition` class manages a custom view controller transition by modally presenting a view controller (known as the "presented" view controller) such that the top of the view controller that initiated the presentation (the "presenting" view controller) is still visible. The dismissal of the presented view controller is interactive. This presentation is visually similar to the presentation of a new message in Apple's default Mail application.
@@ -14,13 +41,12 @@ import UIKit
  You need not instantiate any other `PartialModal` classes to create such a transition, this class will manage them for you. Example code for initiating such a transition is as follows:
 
  ```
- let presentedViewController = SomeViewController()
- self.transition = PartialModalTransition()
- presentedViewController.transitioningDelegate = self.transition
+ transition = PartialModalTransition()
+ presentedViewController.transitioningDelegate = transition
  presentedViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
- presentViewController(presentedController, animated: true, completion: nil)
+ presentingViewController.presentViewController(presentedViewController, animated: true, completion: nil)
  ```
- 
+
  Be sure to keep a reference to the transitioning delegate in the presenting view controller so that it is not inadvertently garbage-collected.
  */
 class PartialModalTransition: NSObject, UIViewControllerTransitioningDelegate, PartialModalPresentationControllerDelegate {
@@ -83,13 +109,13 @@ class PartialModalPresentationAnimationController: NSObject, UIViewControllerAni
         UIView.animateWithDuration(
             transitionDuration(transitionContext),
             delay: 0,
-            usingSpringWithDamping: Constants.TransitionConstants.SPRING_DAMPING,
-            initialSpringVelocity: Constants.TransitionConstants.SPRING_VELOCITY,
+            usingSpringWithDamping: SPRING_DAMPING,
+            initialSpringVelocity: SPRING_VELOCITY,
             options:UIViewAnimationOptions.CurveEaseOut,
             animations: {
-                let scale = Constants.TransitionConstants.PRESENTING_VIEW_SCALE
+                let scale = PRESENTING_VIEW_SCALE
                 presentingViewController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, scale, scale)
-                presentingViewController.view.alpha = Constants.TransitionConstants.PRESENTING_VIEW_ALPHA
+                presentingViewController.view.alpha = PRESENTING_VIEW_ALPHA
 
                 presentedViewController.view.frame = transitionContext.finalFrameForViewController(presentedViewController)
             },
@@ -100,7 +126,7 @@ class PartialModalPresentationAnimationController: NSObject, UIViewControllerAni
     }
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
-        return Constants.TransitionConstants.PRESENTATION_DURATION
+        return PRESENTATION_DURATION
     }
 }
 
@@ -137,7 +163,7 @@ class PartialModalDismissalAnimationController: NSObject, UIViewControllerAnimat
     }
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
-        return Constants.TransitionConstants.DISMISSAL_DURATION
+        return DISMISSAL_DURATION
     }
 }
 
@@ -174,11 +200,11 @@ class PartialModalPresentationController: UIPresentationController, UIAdaptivePr
     override func frameOfPresentedViewInContainerView() -> CGRect {
         if let view = containerView {
             if view.traitCollection.verticalSizeClass == .Compact {
-                let offset = Constants.TransitionConstants.PRESENTED_VIEW_COMPACT_OFFSET
+                let offset = PRESENTED_VIEW_COMPACT_OFFSET
                 return CGRectMake(0, offset, view.bounds.width, view.bounds.height - offset)
             }
             else {
-                let offset = Constants.TransitionConstants.PRESENTED_VIEW_OFFSET
+                let offset = PRESENTED_VIEW_OFFSET
                 return CGRectMake(0, offset, view.bounds.width, view.bounds.height - offset)
             }
         }
@@ -189,9 +215,9 @@ class PartialModalPresentationController: UIPresentationController, UIAdaptivePr
 
     override func presentationTransitionDidEnd(completed: Bool) {
         if completed {
-            let scale = Constants.TransitionConstants.PRESENTING_VIEW_SCALE
+            let scale = PRESENTING_VIEW_SCALE
             presentingViewController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, scale, scale)
-            presentingViewController.view.alpha = Constants.TransitionConstants.PRESENTING_VIEW_ALPHA
+            presentingViewController.view.alpha = PRESENTING_VIEW_ALPHA
 
             presentedViewController.view.frame = frameOfPresentedViewInContainerView()
             let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_: )))
@@ -215,7 +241,7 @@ class PartialModalPresentationController: UIPresentationController, UIAdaptivePr
             { context in
                 self.presentedViewController.view.frame = self.frameOfPresentedViewInContainerView()
 
-                let scale = Constants.TransitionConstants.PRESENTING_VIEW_SCALE
+                let scale = PRESENTING_VIEW_SCALE
                 self.presentingViewController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, scale, scale)
             },
             completion: nil
@@ -235,7 +261,7 @@ class PartialModalPresentationController: UIPresentationController, UIAdaptivePr
                 interactionController?.updateInteractiveTransition(percentage)
             }
         case .Ended:
-            if interactionController?.percentComplete < Constants.TransitionConstants.DISMISSAL_THRESHOLD {
+            if interactionController?.percentComplete < DISMISSAL_THRESHOLD {
                 interactionController?.cancelInteractiveTransition()
             }
             else {
@@ -270,11 +296,11 @@ class PartialModalInteractionController: UIPercentDrivenInteractiveTransition {
         let presentingViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
         let presentedViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
 
-        let targetScale = Constants.TransitionConstants.PRESENTING_VIEW_SCALE
+        let targetScale = PRESENTING_VIEW_SCALE
         let scale = targetScale + (1 - targetScale) * percentComplete
         presentingViewController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, scale, scale)
 
-        let targetAlpha = Constants.TransitionConstants.PRESENTING_VIEW_ALPHA
+        let targetAlpha = PRESENTING_VIEW_ALPHA
         let alpha = targetAlpha + (1 - targetAlpha) * percentComplete
         presentingViewController.view.alpha = alpha
 
@@ -292,7 +318,7 @@ class PartialModalInteractionController: UIPercentDrivenInteractiveTransition {
         let offScreenFrame = CGRectMake(0, containerView.bounds.height, containerView.bounds.width, containerView.bounds.height)
 
         UIView.animateWithDuration(
-            Constants.TransitionConstants.DISMISSAL_DURATION,
+            DISMISSAL_DURATION,
             delay: 0,
             options: .CurveEaseOut,
             animations: {
@@ -314,13 +340,13 @@ class PartialModalInteractionController: UIPercentDrivenInteractiveTransition {
         let presentedViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
 
         UIView.animateWithDuration(
-            Constants.TransitionConstants.DISMISSAL_DURATION,
+            DISMISSAL_DURATION,
             delay: 0,
             options: .CurveEaseOut,
             animations: {
-                let scale = Constants.TransitionConstants.PRESENTING_VIEW_SCALE
+                let scale = PRESENTING_VIEW_SCALE
                 presentingViewController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, scale, scale)
-                presentingViewController.view.alpha = Constants.TransitionConstants.PRESENTING_VIEW_ALPHA
+                presentingViewController.view.alpha = PRESENTING_VIEW_ALPHA
 
                 presentedViewController.view.transform = CGAffineTransformIdentity
             },
